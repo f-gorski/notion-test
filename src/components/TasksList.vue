@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue"
 
-const tasksList = ref([])
+const tasksList = ref()
 
 onMounted(async () => {
   const response = await fetch("../../.netlify/functions/notion").then((res) =>
@@ -13,7 +13,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="tasksList.length">
+  <div v-if="!tasksList">Loading...</div>
+  <div v-else>
     <div>
       <span class="mr-1 bold">No.</span>
       <span class="mr-1 bold">Task Name</span>
@@ -25,8 +26,6 @@ onMounted(async () => {
       <span class="mr-1">{{ task.start_date }}</span>
     </div>
   </div>
-
-  <div v-else>Loading...</div>
 </template>
 
 <style scoped>
