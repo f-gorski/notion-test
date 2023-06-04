@@ -1,13 +1,24 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from "vue"
 
 defineProps<{ msg: string }>()
 
 const count = ref(0)
+const page = ref({})
+
+onMounted(async () => {
+  const response = await fetch("../../.netlify/functions/notion").then((res) =>
+    res.json()
+  )
+
+  page.value = response
+})
 </script>
 
 <template>
   <h1>{{ msg }}</h1>
+
+  {{ page }}
 
   <div class="card">
     <button type="button" @click="count++">count is {{ count }}</button>
